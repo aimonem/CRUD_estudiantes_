@@ -1,63 +1,158 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Estudiantes</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
+@extends('layouts.admin')
 
-<div class="container">
+@section('title', 'Estudiantes')
 
-<h1>Estudiantes</h1>
+@section('titulo', 'Gestión de Estudiantes')
 
-<a href="{{ route('estudiantes.create') }}" class="btn btn-primary">
-    + Nuevo
-</a>
+@section('content')
 
-<br><br>
+<div class="card shadow">
 
-<div class="lista">
+    <div class="card-header d-flex justify-content-between align-items-center">
 
-@foreach($estudiantes as $e)
+        <h3 class="card-title">
+            <i class="fas fa-user-graduate text-primary"></i>
+            Listado de Estudiantes
+        </h3>
 
-<div class="item">
+        <a href="{{ route('estudiantes.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            Nuevo Estudiante
+        </a>
 
-    <div class="info">
-        
-        @if($e->foto_perfil)
-            <img src="{{ asset('storage/' . $e->foto_perfil) }}" class="foto">
+    </div>
+
+    <div class="card-body p-0">
+
+        @if($estudiantes->count())
+
+        <table class="table table-hover table-striped mb-0">
+
+            <thead class="bg-dark">
+
+                <tr>
+
+                    <th width="90">Foto</th>
+                    <th>Nombre</th>
+                    <th>DNI</th>
+                    <th width="250" class="text-center">Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            @foreach($estudiantes as $e)
+
+                <tr>
+
+                    <td class="align-middle">
+
+                        @if($e->foto_perfil)
+
+                            <img src="{{ asset('storage/'.$e->foto_perfil) }}"
+                                 width="55"
+                                 height="55"
+                                 class="rounded-circle border">
+
+                        @else
+
+                            <img src="https://via.placeholder.com/55"
+                                 class="rounded-circle border">
+
+                        @endif
+
+                    </td>
+
+                    <td class="align-middle">
+
+                        <strong>
+
+                            {{ $e->apellido }}, {{ $e->nombre }}
+
+                        </strong>
+
+                    </td>
+
+                    <td class="align-middle">
+
+                        {{ $e->dni }}
+
+                    </td>
+
+                    <td class="text-center align-middle">
+
+                        <a href="{{ route('estudiantes.show',$e->id) }}"
+                           class="btn btn-info btn-sm">
+
+                            <i class="fas fa-eye"></i>
+
+                        </a>
+
+                        <a href="{{ route('estudiantes.edit',$e->id) }}"
+                           class="btn btn-warning btn-sm">
+
+                            <i class="fas fa-edit"></i>
+
+                        </a>
+
+                        <form action="{{ route('estudiantes.destroy',$e->id) }}"
+                              method="POST"
+                              class="d-inline">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button
+                                onclick="return confirm('¿Desea eliminar este estudiante?')"
+                                class="btn btn-danger btn-sm">
+
+                                <i class="fas fa-trash"></i>
+
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            @endforeach
+
+            </tbody>
+
+        </table>
+
         @else
-            <img src="https://via.placeholder.com/45" class="foto">
-        @endif
 
-        <div class="texto">
-            <span class="nombre">{{ $e->nombre }} {{ $e->apellido }}</span>
-            <span>DNI: {{ $e->dni }}</span>
+        <div class="text-center p-5">
+
+            <i class="fas fa-user-graduate fa-4x text-secondary mb-3"></i>
+
+            <h4>
+
+                No existen estudiantes registrados
+
+            </h4>
+
+            <br>
+
+            <a href="{{ route('estudiantes.create') }}"
+               class="btn btn-primary">
+
+                <i class="fas fa-plus"></i>
+
+                Agregar primer estudiante
+
+            </a>
+
         </div>
 
-    </div>
+        @endif
 
-    <div class="acciones">
-        <a href="{{ route('estudiantes.show', $e->id) }}" class="btn btn-primary">Ver</a>
-        <a href="{{ route('estudiantes.edit', $e->id) }}" class="btn btn-warning">Editar</a>
-
-        <form action="{{ route('estudiantes.destroy', $e->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button class="btn btn-danger" onclick="return confirm('¿Eliminar?')">
-                Eliminar
-            </button>
-        </form>
     </div>
 
 </div>
 
-@endforeach
-
-</div>
-
-</div>
-
-</body>
-</html>
+@endsection

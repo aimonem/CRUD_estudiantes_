@@ -1,68 +1,97 @@
-body {
+html, body {
+    height: 100%;
+}
+
+body { 
     font-family: Arial, sans-serif;
-    background-color: #f4f4f5;
+    background: linear-gradient(
+        180deg, 
+        #9bd6ff 0%, 
+        #3f86b8 40%, 
+        #285372 100%
+    );
+    background-attachment: fixed;
     margin: 0;
     padding: 20px;
-    color: #111;
+    color: #062033;
+    min-height: 100vh;
 }
 
 /* CONTENEDOR PRINCIPAL */
 .container {
     max-width: 850px;
     margin: auto;
-    background: white;
+    background: rgba(235, 248, 255, 0.92);
     padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    border: 1px solid #5aa9d6;
+    box-shadow: 0 12px 30px rgba(0, 40, 80, 0.25);
 }
 
 /* TITULOS */
 h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: #075985;
 }
 
 /* BOTONES */
 .btn {
     padding: 6px 10px;
-    border-radius: 6px;
+    border-radius: 8px;
     text-decoration: none;
     font-size: 13px;
     margin-right: 5px;
     display: inline-block;
     border: none;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn-primary {
-    background-color: #3b82f6;
+    background: #0369a1;
     color: white;
+}
+
+.btn-primary:hover {
+    background: #075985;
 }
 
 .btn-warning {
-    background-color: #facc15;
-    color: black;
+    background: #38bdf8;
+    color: #062033;
+}
+
+.btn-warning:hover {
+    background: #0ea5e9;
+    color: white;
 }
 
 .btn-danger {
-    background-color: #ef4444;
+    background: #dc2626;
     color: white;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
 }
 
 /* LISTA */
 .lista {
     display: flex;
     flex-direction: column;
-    gap: 6px; /* menos espacio */
+    gap: 8px;
 }
 
 /* ITEM */
 .item {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+    padding: 12px;
+    border-bottom: 1px solid #7cc3e6;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: #dff4ff;
+    border-radius: 10px;
 }
 
 /* FOTO MINI */
@@ -72,6 +101,7 @@ h1 {
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
+    border: 2px solid #0369a1;
 }
 
 /* INFO */
@@ -87,6 +117,7 @@ h1 {
 
 .nombre {
     font-weight: bold;
+    color: #075985;
 }
 
 /* ACCIONES */
@@ -102,7 +133,8 @@ h1 {
 
 .detalle img {
     margin-top: 10px;
-    border-radius: 10px;
+    border-radius: 12px;
+    border: 2px solid #0369a1;
 }
 
 /* FORMULARIOS */
@@ -113,15 +145,23 @@ h1 {
 input {
     width: 100%;
     padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    border-radius: 8px;
+    border: 1px solid #5aa9d6;
+    background: #eaf7ff;
+    outline: none;
 }
+
+input:focus {
+    border-color: #0369a1;
+    box-shadow: 0 0 6px rgba(3,105,161,0.35);
+}
+
 /* TARJETAS */
 .card {
-    background: white;
-    border-radius: 10px;
+    background: rgba(240, 250, 255, 0.95);
+    border-radius: 12px;
     padding: 12px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #5aa9d6;
 }
 
 /* HEADER */
@@ -143,17 +183,56 @@ input {
     border-radius: 50%;
     margin-right: 10px;
     object-fit: cover;
+    border: 2px solid #0369a1;
 }
 
 /* DETALLE OCULTO */
 .card-body {
     margin-top: 10px;
     display: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #b9e3ff;
     padding-top: 10px;
 }
 
 /* CUANDO ESTA ABIERTO */
 .card.active .card-body {
     display: block;
+}
+.bubbles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.bubbles span {
+    position: absolute;
+    bottom: -50px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    animation: rise 20s infinite ease-in;
+}
+
+/* distintas burbujas */
+.bubbles span:nth-child(1) { left: 10%; width: 10px; height: 10px; animation-duration: 12s; }
+.bubbles span:nth-child(2) { left: 25%; width: 14px; height: 14px; animation-duration: 18s; }
+.bubbles span:nth-child(3) { left: 40%; width: 8px; height: 8px; animation-duration: 14s; }
+.bubbles span:nth-child(4) { left: 60%; width: 16px; height: 16px; animation-duration: 20s; }
+.bubbles span:nth-child(5) { left: 80%; width: 12px; height: 12px; animation-duration: 16s; }
+
+@keyframes rise {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
 }
