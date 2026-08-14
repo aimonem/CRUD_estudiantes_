@@ -22,20 +22,22 @@
 
     </div>
 
-    <div class="card-body p-0">
+    <div class="card-body">
 
         @if($estudiantes->count())
 
-        <table class="table table-hover table-striped mb-0">
+        <table id="tablaEstudiantes"
+               class="table table-bordered table-striped">
 
-            <thead class="bg-dark">
+            <thead>
 
                 <tr>
 
-                    <th width="90">Foto</th>
+                    <th>Foto</th>
                     <th>Nombre</th>
                     <th>DNI</th>
-                    <th width="250" class="text-center">Acciones</th>
+                    <th>Fecha de nacimiento</th>
+                    <th class="text-center">Acciones</th>
 
                 </tr>
 
@@ -59,6 +61,8 @@
                         @else
 
                             <img src="https://via.placeholder.com/55"
+                                 width="55"
+                                 height="55"
                                  class="rounded-circle border">
 
                         @endif
@@ -68,9 +72,7 @@
                     <td class="align-middle">
 
                         <strong>
-
                             {{ $e->apellido }}, {{ $e->nombre }}
-
                         </strong>
 
                     </td>
@@ -81,23 +83,31 @@
 
                     </td>
 
+                    <td class="align-middle">
+
+                        {{ $e->fecha_nacimiento }}
+
+                    </td>
+
                     <td class="text-center align-middle">
 
-                        <a href="{{ route('estudiantes.show',$e->id) }}"
-                           class="btn btn-info btn-sm">
+                        <a href="{{ route('estudiantes.show', $e->id) }}"
+                           class="btn btn-info btn-sm"
+                           title="Ver">
 
                             <i class="fas fa-eye"></i>
 
                         </a>
 
-                        <a href="{{ route('estudiantes.edit',$e->id) }}"
-                           class="btn btn-warning btn-sm">
+                        <a href="{{ route('estudiantes.edit', $e->id) }}"
+                           class="btn btn-warning btn-sm"
+                           title="Editar">
 
                             <i class="fas fa-edit"></i>
 
                         </a>
 
-                        <form action="{{ route('estudiantes.destroy',$e->id) }}"
+                        <form action="{{ route('estudiantes.destroy', $e->id) }}"
                               method="POST"
                               class="d-inline">
 
@@ -106,7 +116,8 @@
 
                             <button
                                 onclick="return confirm('¿Desea eliminar este estudiante?')"
-                                class="btn btn-danger btn-sm">
+                                class="btn btn-danger btn-sm"
+                                title="Eliminar">
 
                                 <i class="fas fa-trash"></i>
 
@@ -131,9 +142,7 @@
             <i class="fas fa-user-graduate fa-4x text-secondary mb-3"></i>
 
             <h4>
-
                 No existen estudiantes registrados
-
             </h4>
 
             <br>
@@ -142,7 +151,6 @@
                class="btn btn-primary">
 
                 <i class="fas fa-plus"></i>
-
                 Agregar primer estudiante
 
             </a>
@@ -156,3 +164,46 @@
 </div>
 
 @endsection
+
+
+{{-- DataTables --}}
+
+@push('scripts')
+
+    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+
+    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#tablaEstudiantes').DataTable({
+
+                language: {
+                    search: "Buscar:",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    info: "Mostrando _START_ a _END_ de _TOTAL_ estudiantes",
+                    infoEmpty: "No hay estudiantes",
+                    zeroRecords: "No se encontraron estudiantes",
+                    paginate: {
+                        first: "Primero",
+                        last: "Último",
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    }
+                },
+
+                pageLength: 10,
+
+                ordering: true,
+
+                responsive: true
+
+            });
+
+        });
+
+    </script>
+
+@endpush
